@@ -18,13 +18,14 @@ class ContactHelper {
 
   Database? _db; //declarando o banco de dados
 
-  get db async {
+  Future<Database> get db async {
     if (_db != null) {
       //se já foi criado retorne o banco de dados
-      return _db;
+      return _db!;
     } else {
       //caso nao foi criado,  inicializar o banco de dados
       _db = await initDb();
+      return _db!;
     }
   }
 
@@ -33,7 +34,7 @@ class ContactHelper {
     final String databasesPath =
         await getDatabasesPath(); //pegar o diretorio do banco de dados no dispositivo
     final path = join(
-      await getDatabasesPath(),
+      databasesPath,
       "contacts.db",
     ); //juntar o nome do arquivo do banco de dados ao diretorio do banco de dados
 
@@ -43,14 +44,15 @@ class ContactHelper {
       version: 1,
       onCreate: (Database db, int newerversion) async {
         await db.execute(
-          "CREATE TABLE $contactTable($idColumn INTEGER PRIMARY KEY, $nomeColumn TEXT, $emailColumn TEXT, $telefoneColumn TEXT, $imgColumn TEXT",
+          "CREATE TABLE $contactTable($idColumn INTEGER PRIMARY KEY, $nomeColumn TEXT, $emailColumn TEXT, $telefoneColumn TEXT, $imgColumn TEXT)",
         );
       },
     );
   }
 
   //_____________________Salvando o contato no banco_________________________________
-  Future<dynamic> saveContact(Contact contact) async {
+
+  Future<Contact> saveContact(Contact contact) async {
     Database dbContact = await db;
     contact.id = await dbContact.insert(
       contactTable,
@@ -138,14 +140,17 @@ class Contact {
   String? nome;
   String? email;
   String? telefone;
-  String? img;
+  String img = "";
+
+  Contact();
 
   //metodo para converter um mapa em um objeto
   Contact.fromMap(Map<String, dynamic> map) {
+    id = map[idColumn];
     nome = map[nomeColumn];
     email = map[emailColumn];
     telefone = map[telefoneColumn];
-    img = map[imgColumn];
+    img = map[imgColumn] ?? "";
   }
 
   //metodo para converter um objeto em um mapa
