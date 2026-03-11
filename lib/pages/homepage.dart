@@ -37,14 +37,14 @@ class _HomepageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Contatos", style: TextStyle(color: Colors.white)),
         centerTitle: true,
-        backgroundColor: Colors.red,
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       floatingActionButton: FloatingActionButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
         onPressed: () {
           // Aqui você chamará a página de criação depois
         },
-        backgroundColor: Colors.red,
+        backgroundColor: Theme.of(context).primaryColor,
         child: const Icon(Icons.add, color: Colors.white),
       ),
       body: ListView.builder(
