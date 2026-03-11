@@ -16,6 +16,11 @@ class _ContactPageState extends State<ContactPage> {
   late Contact _editedContact;
   bool _userEdited = false;
 
+  TextEditingController nomeController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController telefoneController = TextEditingController();
+
+
   @override
   void initState() {
     super.initState();
@@ -61,6 +66,7 @@ class _ContactPageState extends State<ContactPage> {
                 ),
               ),
               TextField(
+                controller: nomeController,
                 decoration: InputDecoration(
                   labelText: "Nome",
                 ),
@@ -72,24 +78,27 @@ class _ContactPageState extends State<ContactPage> {
                 },
               ),
                   TextField(
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       labelText: "E-mail",
                     ),
                     onChanged: (text) {
                       setState(() {
                         _userEdited = true;
-                        _editedContact.nome = text;
+                        _editedContact.email = text;
                       });
                     },
                   ),
                   TextField(
+                    keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
                       labelText: "Telefone",
                     ),
                     onChanged: (text) {
                       setState(() {
                         _userEdited = true;
-                        _editedContact.nome = text;
+                        _editedContact.telefone = text;
                       });
                     },
                   ),
